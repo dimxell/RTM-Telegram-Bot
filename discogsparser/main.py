@@ -4,10 +4,8 @@ from datatypes import DiscogsRelease
 
 
 class DiscogsAPI:
-    def __init__(self):
-        cfg = ConfigParser()
-        cfg.read("config.conf")
-        self.__api_token = cfg.get("Discogs", "api_token")
+    def __init__(self, api_token: str):
+        self.__api_token = api_token
         self.base_url = "https://api.discogs.com"
 
         self.db_url = self.base_url + "/database"
@@ -44,4 +42,6 @@ class DiscogsAPI:
 
 if __name__ == "__main__":
     parser = DiscogsAPI()
+    cfg = ConfigParser()
+    cfg.read("config.conf")
     print(parser.search_release("risk of rain 2")[0])
