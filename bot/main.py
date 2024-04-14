@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 # This is a simple echo bot using the decorator mechanism.
 # It echoes any incoming text messages.
 
@@ -10,7 +8,9 @@ from configparser import ConfigParser
 cfg = ConfigParser()
 cfg.read('config.conf')
 
-bot = AsyncTeleBot(cfg.get("Bot", "bot_token"))
+token = cfg.get("Bot", "bot_token")
+
+bot = AsyncTeleBot(token)
 
 
 
