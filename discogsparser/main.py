@@ -1,6 +1,6 @@
 from configparser import ConfigParser
 import requests
-from bs4 import BeautifulSoup
+from datatypes import DiscogsRelease
 
 
 class DiscogsAPI:
@@ -20,7 +20,7 @@ class DiscogsAPI:
 
         return r.json()
 
-    def search_release(self, query: str, results_count: int = 5, page: int = 1):
+    def search_release(self, query: str, results_count: int = 5, page: int = 1) -> list[DiscogsRelease]:
         result = self.__request(self.db_url, "search", {
             "query": query,
             "type": "release",
@@ -28,9 +28,20 @@ class DiscogsAPI:
             "page": page
         })
 
-        return result
+        return [DiscogsRelease(
+                title=r["title"],
+                country=r["country"],
+                release_year=int(r["year"]),
+                genres=r["genre"],
+                style=r["style"],
+                master_url=r["master_url"],
+                release_url=r["resource_url"],
+                thumbnail_image_url=r["thumb"],
+                cover_image_url=r["cover_image"],
+            ) for r in result["results"]
+        ]
 
 
 if __name__ == "__main__":
     parser = DiscogsAPI()
-    print(parser.search_release("risk of rain 2"))
+    print(parser.search_release("risk of rain 2")[0])
