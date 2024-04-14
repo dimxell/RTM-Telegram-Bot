@@ -1,11 +1,16 @@
-# haha code goes brrrrrrr
 #!/usr/bin/python
 
 # This is a simple echo bot using the decorator mechanism.
 # It echoes any incoming text messages.
 
 from telebot.async_telebot import AsyncTeleBot
-bot = AsyncTeleBot('TOKEN')
+from configparser import ConfigParser
+
+
+cfg = ConfigParser()
+cfg.read('config.conf')
+
+bot = AsyncTeleBot(cfg.get("Bot", "bot_token"))
 
 
 
