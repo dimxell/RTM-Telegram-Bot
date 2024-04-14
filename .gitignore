@@ -2,3 +2,4 @@
 .vscode
 .idea
 config.conf
+__pycache__
