@@ -1,6 +1,6 @@
 from configparser import ConfigParser
 import requests
-from datatypes import DiscogsRelease
+from discogsparser.datatypes import DiscogsRelease
 
 
 class DiscogsAPI:
