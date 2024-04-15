@@ -56,8 +56,10 @@ async def test(message: Message):
         allow_redirects=True,
         headers=headers
     )
-    photo = BytesIO(r.content)
-    await bot.send_photo(message.from_user.id, photo, caption="god pls work")
-
+    if r.status_code == 200:
+        photo = BytesIO(r.content)
+        await bot.send_photo(message.from_user.id, photo, caption="god pls work")
+    else:
+        await bot.send_photo(message.from_user.id, f"status code: {r.status_code}")
 
 bot.add_custom_filter(asyncio_filters.StateFilter(bot))
