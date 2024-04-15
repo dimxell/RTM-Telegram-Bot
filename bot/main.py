@@ -1,6 +1,5 @@
 import requests
-from io import BytesIO
-
+from io import BytesIO, StringIO
 from configparser import ConfigParser
 
 from telebot import asyncio_filters
@@ -48,18 +47,19 @@ async def search_release(message: Message):
 
 @bot.message_handler(func=lambda message: message.text == "testpls")
 async def test(message: Message):
-    headers = {
-        'User-Agent': 'Mozilla/5.0',
-    }
-    r = requests.get(
-        "https://i.discogs.com/jh5NU8qQ7fIMan3Yi_cjEdsUczWgp6rD_RBHCn0n3Tk/rs:fit/g:sm/q:90/h:601/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE2MTc2/NzAwLTE2MTA5MDE3/MDItMTEzMS5wbmc.jpeg", 
-        allow_redirects=True,
-        headers=headers
-    )
-    if r.status_code == 200:
-        photo = BytesIO(r.content)
-        await bot.send_photo(message.from_user.id, photo, caption="god pls work")
-    else:
-        await bot.send_photo(message.from_user.id, f"status code: {r.status_code}")
+    # headers = {
+    #     'User-Agent': 'Mozilla/5.0',
+    # }
+    # r = requests.get(
+    #     "https://i.discogs.com/jh5NU8qQ7fIMan3Yi_cjEdsUczWgp6rD_RBHCn0n3Tk/rs:fit/g:sm/q:90/h:601/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE2MTc2/NzAwLTE2MTA5MDE3/MDItMTEzMS5wbmc.jpeg", 
+    #     allow_redirects=True,
+    #     headers=headers
+    # )
+
+    # photo = Image.open(StringIO(r.content))
+    # print(photo)
+    # photo.show()
+    await bot.send_photo(message.from_user.id, b'https://i.discogs.com/jh5NU8qQ7fIMan3Yi_cjEdsUczWgp6rD_RBHCn0n3Tk/rs:fit/g:sm/q:90/h:601/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE2MTc2/NzAwLTE2MTA5MDE3/MDItMTEzMS5wbmc.jpeg'.decode(), caption="god pls work")
+
 
 bot.add_custom_filter(asyncio_filters.StateFilter(bot))
