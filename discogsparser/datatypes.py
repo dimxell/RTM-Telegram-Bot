@@ -15,4 +15,4 @@ class DiscogsRelease:
     cover_image_url: str
 
     def __str__(self) -> str:
-        return f"DiscogsRelease Dataclass: {self.title} ({self.release_year})"
+        return f"DiscogsRelease Dataclass: {self.title} ({self.release_year}) {self.country} {self.genres}"

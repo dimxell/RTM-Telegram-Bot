@@ -38,10 +38,19 @@ async def echo_message(message: Message):
 @bot.message_handler(state=SearchStates.search_release)
 async def search_release(message: Message):
     releases = discogs_parser.search_release(message.text)
-
+    stringList = {"Titles": [i.title for i in releases], "Countries": [i.country for i in releases], "Years": [i.release_year for i in releases], "Genres": [i.genres for i in releases]}
     await bot.send_media_group(message.chat.id, [InputMediaPhoto(i.cover_image_url, caption=i.title) for i in releases])
-    await bot.send_message(message.from_user.id, "Выбери релиз из списка", reply_markup=gen_titles_inline_keyboard([i.title for i in releases]))
+    await bot.send_message(message.from_user.id, "Выбери релиз из списка", reply_markup=gen_titles_inline_keyboard(stringList.get("Titles", 0), stringList.get("Countries", 0), stringList.get("Years", 0), stringList.get("Genres", 0)))
     await bot.delete_state(message.from_user.id, message.chat.id)
+
+
+@bot.callback_query_handler(func=lambda call: True)
+async def button_callback(call):
+    country = call.data.split('/')[0]
+    year = call.data.split('/')[1]
+    genre = call.data.split('/')[2]
+    await bot.send_message(call.message.chat.id, f'Страна: {country}\n' f'Год выпуска: {year}\n' f'Жанр: {genre}\n')
+
 
 @bot.message_handler(func=lambda message: message.text == "testpls")
 async def test(message: Message):

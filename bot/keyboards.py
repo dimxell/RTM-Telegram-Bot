@@ -1,5 +1,11 @@
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup
 
+
+
+
+
+
+
 def startup_keyboard() -> ReplyKeyboardMarkup:
     markup = ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True)
 
@@ -9,10 +15,9 @@ def startup_keyboard() -> ReplyKeyboardMarkup:
     return markup
 
 
-def gen_titles_inline_keyboard(titles: list[str]) -> InlineKeyboardMarkup:
+def gen_titles_inline_keyboard(titles: list[str], countries: list[str], years: list[str], genres: list[str]) -> InlineKeyboardMarkup:
     markup = InlineKeyboardMarkup(row_width=1)
-
-    for title in titles:
-        markup.add(InlineKeyboardButton(title, callback_data=title))
+    for title, country, year, genre in zip(titles, countries, years, genres):
+        markup.add(InlineKeyboardButton(title, callback_data= country + '/' + str(year) + '/' + ''.join(genre)))
 
     return markup
